@@ -1,0 +1,14 @@
+.venv/
+.browsers/
+.pip-cache/
+__pycache__/
+.pytest_cache/
+test-results/
+
+# Spreadsheet editor temporary files
+.~lock.*#
+~$*.xlsx
+
+# Local job-search and scheduling notes
+진행기록.md
+프로젝트계획.md
