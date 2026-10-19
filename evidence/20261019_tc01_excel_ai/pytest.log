@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오
+plugins: base-url-2.1.0, playwright-0.9.0
+collecting ... collected 3 items
+
+tests/test_tc01_login.py::test_login_success[chromium] PASSED            [ 33%]
+tests/test_tc_data.py::test_reads_login_values_by_tc_id_instead_of_row_number PASSED [ 66%]
+tests/test_tc_data.py::test_missing_tc_id_stops_instead_of_using_another_row PASSED [100%]
+
+- generated xml file: C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오\evidence\20261019_tc01_excel_ai\pytest.xml -
+============================== 3 passed in 7.01s ==============================
