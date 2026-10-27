@@ -36,6 +36,22 @@ Python · Playwright · pytest · Chromium으로 웹 테스트를 작성·실행
 
 AI가 Codex에 포함된 Python 3.12.14를 바탕으로 이 폴더 안의 `.venv`를 준비했습니다. 시스템 Python이나 다른 프로젝트의 패키지는 변경하지 않았습니다. 이 가상환경은 현재 PC의 Codex 런타임에 의존하므로 다른 PC로 폴더를 옮길 때는 Python을 준비한 뒤 재생성합니다.
 
+### Windows 노트북에서 이어서 작업하기
+
+노트북에 Git과 Python 3.12를 준비한 뒤 PowerShell에서 실행합니다. 첫 설치에는 인터넷 연결이 필요합니다. `.venv`와 `.browsers`는 PC마다 새로 만들며 GitHub에서 내려받지 않습니다.
+
+```powershell
+git clone https://github.com/jkjun1234/saucedemo-qa-automation.git
+Set-Location -LiteralPath '.\saucedemo-qa-automation'
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+$env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
+.\.venv\Scripts\python.exe -m playwright install chromium
+.\.venv\Scripts\python.exe -m pytest .\tests\test_tc01_login.py -q --headed --tracing=retain-on-failure
+```
+
+다음 작업을 시작하기 전 `git pull`로 최신 변경을 받고, 노트북 작업을 마치면 변경 파일을 확인한 뒤 커밋·푸시합니다. 집 PC에서는 다시 `git pull`한 다음 이어갑니다. 같은 TC 엑셀 파일을 두 PC에서 동시에 수정하지 않습니다. 최신 실행 프로그램 설계와 계획은 `docs/superpowers/`에 있으며 아직 구현된 기능이 아닙니다.
+
 설치 버전: Playwright 1.63.0, pytest 9.1.1, pytest-playwright 0.9.0, openpyxl 3.1.5, Chromium 153.0.8010.12. 전체 Python 의존성은 `requirements.txt`에 고정했습니다. AI의 로컬 브라우저 기동·DOM 읽기 확인은 `environment_check.txt`에 저장했고 `pip check`도 통과했습니다. 이후 SauceDemo TC01은 사용자가 직접 실행했습니다.
 
 브라우저 파일은 `.browsers`에 보관합니다. 테스트 실행 전 사용할 PowerShell 환경 설정은 다음과 같습니다.
