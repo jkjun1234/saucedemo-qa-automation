@@ -1,0 +1,18 @@
+{"type": "run_started", "time": "2026-10-28T21:11:30.973+09:00", "run_id": "20261028_211130_f1a86d4e", "total": 1, "base_url": "https://www.saucedemo.com/"}
+{"type": "tc_started", "time": "2026-10-28T21:11:31.443+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01"}
+{"type": "step_started", "time": "2026-10-28T21:11:31.561+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 1, "action": "접속", "target": ""}
+{"type": "step_finished", "time": "2026-10-28T21:11:31.847+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 1, "action": "접속", "target": ""}
+{"type": "step_started", "time": "2026-10-28T21:11:31.848+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 2, "action": "입력", "target": "#user-name"}
+{"type": "step_finished", "time": "2026-10-28T21:11:31.892+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 2, "action": "입력", "target": "#user-name"}
+{"type": "step_started", "time": "2026-10-28T21:11:31.892+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 3, "action": "입력", "target": "#password"}
+{"type": "step_finished", "time": "2026-10-28T21:11:31.907+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 3, "action": "입력", "target": "#password"}
+{"type": "step_started", "time": "2026-10-28T21:11:31.907+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 4, "action": "클릭", "target": "#login-button"}
+{"type": "step_finished", "time": "2026-10-28T21:11:31.998+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 4, "action": "클릭", "target": "#login-button"}
+{"type": "step_started", "time": "2026-10-28T21:11:31.998+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 5, "action": "URL확인", "target": ""}
+{"type": "step_finished", "time": "2026-10-28T21:11:32.012+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 5, "action": "URL확인", "target": ""}
+{"type": "step_started", "time": "2026-10-28T21:11:32.012+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 6, "action": "표시확인", "target": ".inventory_item:first-child"}
+{"type": "step_finished", "time": "2026-10-28T21:11:32.020+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 6, "action": "표시확인", "target": ".inventory_item:first-child"}
+{"type": "step_started", "time": "2026-10-28T21:11:32.020+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 7, "action": "최소개수확인", "target": ".inventory_item"}
+{"type": "step_finished", "time": "2026-10-28T21:11:32.053+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "step": 7, "action": "최소개수확인", "target": ".inventory_item"}
+{"type": "tc_finished", "time": "2026-10-28T21:11:32.068+09:00", "run_id": "20261028_211130_f1a86d4e", "tc_id": "TC01", "status": "Pass", "expected": "모든 단계의 검증 통과", "actual": "모든 단계와 검증 통과", "failed_step": null, "reason": "", "started_at": "2026-10-28T21:11:31.443+09:00", "finished_at": "2026-10-28T21:11:32.068+09:00", "evidence": {"log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261028_211130_f1a86d4e\\events.jsonl"}}
+{"type": "run_finished", "time": "2026-10-28T21:11:32.197+09:00", "run_id": "20261028_211130_f1a86d4e", "results": [{"tc_id": "TC01", "status": "Pass", "expected": "모든 단계의 검증 통과", "actual": "모든 단계와 검증 통과", "failed_step": null, "reason": "", "started_at": "2026-10-28T21:11:31.443+09:00", "finished_at": "2026-10-28T21:11:32.068+09:00", "evidence": {"log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261028_211130_f1a86d4e\\events.jsonl"}}]}
