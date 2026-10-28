@@ -48,13 +48,14 @@ def _perform_step(page, step, base_url, timeout_ms):
 
 
 def run_cases(cases, base_url, emit, stop_event, *, output_dir=None,
-              headless=False, timeout_ms=10_000):
+              headless=False, timeout_ms=10_000, slow_mo=0):
     """준비된 TC를 실행하고 결과 목록을 반환합니다. 자동 TC 재시도는 없습니다.
 
     emit은 진행 이벤트를 받는 함수, stop_event는 threading.Event입니다.
     중지는 현재 동작이 끝나거나 제한시간에 도달한 뒤 단계 경계에서 처리합니다.
     output_dir는 실행별 증거 폴더이며 기존 실행 결과를 덮어쓰지 않습니다.
     GUI/pytest에서는 기존 이벤트 루프와 겹치지 않는 작업 스레드에서 호출합니다.
+    slow_mo는 브라우저 동작 사이의 관찰용 간격(ms)이며 판정 조건은 바꾸지 않습니다.
     """
     parsed = urlsplit(base_url.strip())
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
@@ -80,7 +81,7 @@ def run_cases(cases, base_url, emit, stop_event, *, output_dir=None,
         try:
             if cases and not stop_event.is_set():
                 with sync_playwright() as playwright:
-                    browser = playwright.chromium.launch(headless=headless)
+                    browser = playwright.chromium.launch(headless=headless, slow_mo=slow_mo)
                     try:
                         for case, result in zip(cases, results):
                             if stop_event.is_set():

@@ -1,0 +1,23 @@
+{
+  "operator": "미기록",
+  "source": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\SauceDemo_TC_실행용_v2.xlsx",
+  "base_url": "https://www.saucedemo.com/",
+  "slow_mo_ms": 1000,
+  "excel_saved": true,
+  "save_error": "",
+  "results": [
+    {
+      "tc_id": "TC01",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-28T21:44:43.214+09:00",
+      "finished_at": "2026-10-28T21:44:48.144+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261028_214442_d18f7b9b\\events.jsonl"
+      }
+    }
+  ]
+}

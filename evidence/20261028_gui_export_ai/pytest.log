@@ -1,0 +1,53 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오
+plugins: base-url-2.1.0, playwright-0.9.0
+collecting ... collected 43 items
+
+tests/e2e/test_excel_scenarios.py::test_excel_tc01_on_saucedemo PASSED   [  2%]
+tests/e2e/test_tc01_login.py::test_login_success[chromium] PASSED        [  4%]
+tests/unit/test_app.py::test_invalid_file_does_not_start_worker PASSED   [  6%]
+tests/unit/test_app.py::test_start_stop_rejects_duplicate_and_resets_for_rerun PASSED [  9%]
+tests/unit/test_app.py::test_save_error_is_separate_from_pass PASSED     [ 11%]
+tests/unit/test_app.py::test_close_requests_stop_and_waits_for_worker PASSED [ 13%]
+tests/unit/test_excel_io.py::test_reads_cases_by_id_and_orders_steps_without_old_results PASSED [ 16%]
+tests/unit/test_excel_io.py::test_preserves_blank_input_and_password_spaces PASSED [ 18%]
+tests/unit/test_excel_io.py::test_reading_keeps_workbook_bytes_unchanged PASSED [ 20%]
+tests/unit/test_excel_io.py::test_matches_headers_instead_of_column_letters PASSED [ 23%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps0-\uc9c0\uc6d0\ud558\uc9c0 \uc54a\ub294 \ub3d9\uc791] PASSED [ 25%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps1-\uac80\uc99d \ub2e8\uacc4] PASSED [ 27%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps2-\ub300\uc0c1] PASSED [ 30%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps3-\uae30\ub300\uac12] PASSED [ 32%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps4-\uc0c1\ub300 \uacbd\ub85c] PASSED [ 34%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps5-\uc591\uc758 \uc815\uc218] PASSED [ 37%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps6-\uc911\ubcf5] PASSED [ 39%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps7-\uc5f0\uc18d] PASSED [ 41%]
+tests/unit/test_excel_io.py::test_invalid_steps_report_sheet_and_row[steps8-TC \ud45c\uc5d0 \uc5c6\ub294] PASSED [ 44%]
+tests/unit/test_excel_io.py::test_missing_step_header_reports_header_row PASSED [ 46%]
+tests/unit/test_excel_io.py::test_duplicate_tc_id_is_not_silently_overwritten PASSED [ 48%]
+tests/unit/test_excel_io.py::test_empty_steps_are_not_reported_as_success PASSED [ 51%]
+tests/unit/test_prepare_tc_workbook.py::test_prepares_numbered_cases_without_changing_source PASSED [ 53%]
+tests/unit/test_prepare_tc_workbook.py::test_result_controls_follow_the_result_column PASSED [ 55%]
+tests/unit/test_prepare_tc_workbook.py::test_preparation_never_overwrites_an_existing_execution_file PASSED [ 58%]
+tests/unit/test_result_export.py::test_updates_same_file_by_headers_and_id_preserving_other_cells PASSED [ 60%]
+tests/unit/test_result_export.py::test_failure_and_na_include_reason_step_and_evidence[Fail] PASSED [ 62%]
+tests/unit/test_result_export.py::test_failure_and_na_include_reason_step_and_evidence[N/A] PASSED [ 65%]
+tests/unit/test_result_export.py::test_invalid_export_leaves_source_bytes_unchanged[missing-\uc5c6\ub294 TC-ID] PASSED [ 67%]
+tests/unit/test_result_export.py::test_invalid_export_leaves_source_bytes_unchanged[duplicate-\uc911\ubcf5 TC-ID] PASSED [ 69%]
+tests/unit/test_result_export.py::test_invalid_export_leaves_source_bytes_unchanged[duplicate_result-\uc911\ubcf5 \uacb0\uacfc] PASSED [ 72%]
+tests/unit/test_result_export.py::test_invalid_export_leaves_source_bytes_unchanged[status-\uacb0\uacfc\uac12] PASSED [ 74%]
+tests/unit/test_result_export.py::test_invalid_export_leaves_source_bytes_unchanged[header-\ud544\uc694\ud55c \uc5f4] PASSED [ 76%]
+tests/unit/test_result_export.py::test_locked_destination_is_reported_without_damaging_source PASSED [ 79%]
+tests/unit/test_step_runner.py::test_performs_steps_and_emits_progress PASSED [ 81%]
+tests/unit/test_step_runner.py::test_failure_saves_evidence_and_next_tc_has_clean_state PASSED [ 83%]
+tests/unit/test_step_runner.py::test_stop_between_steps_leaves_current_and_remaining_na PASSED [ 86%]
+tests/unit/test_step_runner.py::test_rejects_invalid_base_url_before_launch PASSED [ 88%]
+tests/unit/test_step_runner.py::test_excel_input_and_expected_changes_affect_real_browser PASSED [ 90%]
+tests/unit/test_step_runner.py::test_stop_during_element_wait_is_na_not_fail PASSED [ 93%]
+tests/unit/test_step_runner.py::test_closed_browser_page_is_environment_error PASSED [ 95%]
+tests/unit/test_tc_data.py::test_reads_login_values_by_tc_id_instead_of_row_number PASSED [ 97%]
+tests/unit/test_tc_data.py::test_missing_tc_id_stops_instead_of_using_another_row PASSED [100%]
+
+- generated xml file: C:\Users\jun\Desktop\취업서류\자동화테스트_포트폴리오\evidence\20261028_gui_export_ai\pytest.xml -
+============================= 43 passed in 15.87s =============================

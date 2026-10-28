@@ -22,6 +22,14 @@ assert copy(prepared_cell.font) == copy(original_cell.font)
 
 근거: [openpyxl StyleProxy 공식 구현](https://openpyxl.readthedocs.io/en/stable/_modules/openpyxl/styles/proxy.html)
 
+## 조건부 서식 보존 검사
+
+2026-10-28 사용자 선택으로 프로젝트 로컬에 기록합니다.
+
+- `str(sheet.conditional_formatting)`에는 객체 메모리 주소가 포함됩니다. 두 통합 문서의 규칙이 같아도 서로 다른 문자열이므로 보존 여부를 판정할 수 없습니다.
+- 적용 범위 `str(cf.sqref)`와 각 규칙의 `tostring(rule.to_tree())` 값을 비교합니다. `tests/unit/test_result_export.py`가 실제 비교 예시입니다.
+- 값 비교와 별도로 폰트·채우기·드롭다운·병합 범위도 확인합니다. 객체 주소 불일치를 실제 엑셀 서식 손상으로 보고하지 않습니다.
+
 ## Playwright 동기 실행기와 pytest 세션 충돌
 
 2026-10-28 사용자 선택으로 프로젝트 로컬에 기록합니다.

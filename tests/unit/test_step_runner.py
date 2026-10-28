@@ -53,7 +53,7 @@ def test_performs_steps_and_emits_progress(local_site, tmp_path, run_in_worker):
         step(5, "표시확인", ".item:first-of-type"),
         step(6, "최소개수확인", ".item", expected=1)])]
     results = run_cases(cases, local_site, events.append, Event(),
-                        output_dir=tmp_path, headless=True, timeout_ms=600)
+                        output_dir=tmp_path, headless=True, timeout_ms=600, slow_mo=1)
     assert results[0]["status"] == "Pass"
     assert results[0]["failed_step"] is None
     assert len([e for e in events if e["type"] == "step_finished"]) == 6

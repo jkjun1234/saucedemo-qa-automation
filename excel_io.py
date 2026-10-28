@@ -1,11 +1,13 @@
-"""역할: TC 엑셀의 자동화 실행 단계를 읽고 실행 전 오류를 검사합니다.
+"""역할: TC 엑셀의 실행 단계를 읽고, 선택한 파일에 결과·비고를 기록합니다.
 
 TC_웹주문에서 TC 번호·시나리오를, 자동화_실행단계에서 순서·동작·대상·값을
-읽습니다. 브라우저를 실행하거나 결과를 저장하지 않으며 과거 결과도 반환하지
-않습니다. 향후 실행기와 프로그램 창이 read_cases()를 사용합니다.
+읽습니다. read_cases()는 읽기 전용이며 과거 결과를 반환하지 않습니다.
+write_results()만 결과·비고를 갱신합니다. 브라우저 조작은 step_runner 담당입니다.
 """
 
+import os
 import re
+import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -125,3 +127,64 @@ def read_cases(path: Path) -> list[dict]:
         return ready
     finally:
         workbook.close()
+
+
+def write_results(source: Path, results: list[dict]) -> Path:
+    """TC-ID·헤더로 결과/비고만 갱신하고 선택한 파일 경로를 반환합니다.
+
+    저장 중 오류가 나면 기존 파일을 유지합니다. 같은 폴더의 임시 저장 파일은
+    교체 직후 제거되며 결과 사본이나 결과 시트를 남기지 않습니다.
+    """
+    source = Path(source)
+    workbook = load_workbook(source)
+    temporary = None
+    try:
+        rows = list(_rows(workbook, "TC_웹주문", TC_HEADERS))
+        locations = {}
+        for number, row in rows:
+            tc_id = _text(row["TC-ID"]).strip()
+            if tc_id in locations:
+                raise ValueError(f"TC_웹주문 {number}행: 중복 TC-ID: {tc_id}")
+            locations[tc_id] = number
+        seen = set()
+        for result in results:
+            tc_id = result["tc_id"]
+            if tc_id not in locations:
+                raise ValueError(f"TC 표에 없는 TC-ID: {tc_id}")
+            if tc_id in seen:
+                raise ValueError(f"중복 결과 TC-ID: {tc_id}")
+            if result["status"] not in {"Pass", "Fail", "N/A"}:
+                raise ValueError(f"{tc_id}: 잘못된 결과값: {result['status']}")
+            seen.add(tc_id)
+
+        sheet = workbook["TC_웹주문"]
+        for row in sheet:
+            headers = {_text(cell.value).strip(): cell.column for cell in row if cell.value is not None}
+            if "TC-ID" in headers:
+                break
+        for result in results:
+            number = locations[result["tc_id"]]
+            sheet.cell(number, headers["결과"], result["status"])
+            remark = None
+            if result["status"] != "Pass":
+                parts = [f"사유: {result.get('reason') or '사유 미기록'}"]
+                if result.get("failed_step") is not None:
+                    parts.append(f"실패 단계: {result['failed_step']}")
+                for key, label in [("expected", "기대값"), ("actual", "관찰/오류")]:
+                    if result.get(key):
+                        parts.append(f"{label}: {result[key]}")
+                parts.extend(f"증거({kind}): {path}" for kind, path in result.get("evidence", {}).items() if path)
+                remark = "\n".join(parts)
+            sheet.cell(number, headers["비고"]).value = remark
+
+        descriptor, name = tempfile.mkstemp(prefix=".tc-save-", suffix=".xlsx", dir=source.parent)
+        os.close(descriptor)
+        temporary = Path(name)
+        workbook.save(temporary)
+        workbook.close()
+        os.replace(temporary, source)
+        return source
+    finally:
+        workbook.close()
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
