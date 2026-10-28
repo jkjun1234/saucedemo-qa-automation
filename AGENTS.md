@@ -21,3 +21,13 @@ assert copy(prepared_cell.font) == copy(original_cell.font)
 - 이 비교 코드의 오류를 실제 서비스 결함이나 사용자 테스트 수행 실적으로 기록하지 않습니다.
 
 근거: [openpyxl StyleProxy 공식 구현](https://openpyxl.readthedocs.io/en/stable/_modules/openpyxl/styles/proxy.html)
+
+## Playwright 동기 실행기와 pytest 세션 충돌
+
+2026-10-28 사용자 선택으로 프로젝트 로컬에 기록합니다.
+
+- pytest-playwright가 같은 스레드에 기존 세션을 유지하는 상태에서 새 `sync_playwright()`를 시작하면 `Playwright Sync API inside the asyncio loop` 오류가 발생할 수 있습니다. 실제로 개별 검사는 통과했지만 전체 실행에서 개발용 검사 4개가 이 오류로 N/A가 됐습니다.
+- 이 프로젝트는 GUI 작업 스레드에서 동기 실행기를 호출하는 설계입니다. 개발 검사도 `tests/conftest.py`의 `run_in_worker`로 실제 실행기를 별도 작업 스레드에서 호출합니다. 판정이나 브라우저를 모의 객체로 대체한 해결이 아닙니다.
+- Playwright 생성·브라우저 조작·정리는 해당 작업 스레드 안에서 수행합니다. 프로그램 창에는 진행 이벤트만 전달합니다.
+- 개별 검사만 통과한 상태로 완료를 주장하지 말고 기존 사이트 검사와 새 실행기 검사가 함께 들어간 전체 검사를 확인합니다.
+- 브라우저/실행 환경 충돌을 SauceDemo 제품 결함으로 기록하지 않습니다.
