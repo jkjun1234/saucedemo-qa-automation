@@ -33,6 +33,10 @@ def _perform_step(page, step, base_url, timeout_ms):
         expect(page).to_have_url(urljoin(base_url, step["expected"]), timeout=timeout_ms)
     elif action == "표시확인":
         expect(page.locator(step["target"])).to_be_visible(timeout=timeout_ms)
+    elif action == "문구확인":
+        expect(page.locator(step["target"])).to_have_text(step["expected"], timeout=timeout_ms)
+    elif action == "개수확인":
+        expect(page.locator(step["target"])).to_have_count(step["expected"], timeout=timeout_ms)
     elif action == "최소개수확인":
         try:
             page.wait_for_function(

@@ -1,0 +1,22 @@
+{
+  "performer": "AI (Codex)",
+  "method": "actual headed Chromium from Excel steps; same-file result export",
+  "source": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\SauceDemo_TC_실행용_v2.xlsx",
+  "slow_mo_ms": 1000,
+  "excel_saved": true,
+  "results": [
+    {
+      "tc_id": "TC02",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-28T22:20:29.485+09:00",
+      "finished_at": "2026-10-28T22:20:34.235+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261028_222028_c91b9f01\\events.jsonl"
+      }
+    }
+  ]
+}

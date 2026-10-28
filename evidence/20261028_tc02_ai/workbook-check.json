@@ -1,0 +1,21 @@
+{
+  "baseline": "latest user-saved workbook before TC02 preparation",
+  "changed_existing_cells": [
+    [
+      "TC_웹주문",
+      "A1",
+      "실행용 양식 · TC01 단계 준비 / TC02~05 단계 미준비 · 실행 전 결과는 빈칸",
+      "실행용 양식 · TC01~TC02 단계 준비 / TC03~TC05 단계 미준비 · 결과는 실제 실행 후 기록"
+    ],
+    [
+      "TC_웹주문",
+      "H4",
+      null,
+      "Pass"
+    ]
+  ],
+  "added_step_rows": 8,
+  "existing_cell_styles": "preserved",
+  "old_scenario_draft": "unchanged",
+  "performer": "AI (Codex)"
+}

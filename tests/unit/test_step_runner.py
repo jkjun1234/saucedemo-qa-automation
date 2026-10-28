@@ -171,3 +171,19 @@ def test_closed_browser_page_is_environment_error(local_site, tmp_path, run_in_w
     results = run_in_worker(cases, local_site, events.append, Event(), output_dir=tmp_path, headless=True)
     assert [r["status"] for r in results] == ["N/A", "N/A"]
     assert any(e["type"] == "run_error" and e["category"] == "환경" for e in events)
+
+
+@pytest.mark.parametrize("action,target,expected,status", [
+    ("문구확인", "#clean", "clean", "Pass"),
+    ("문구확인", "#clean", "잘못된 문구", "Fail"),
+    ("개수확인", ".missing", 0, "Pass"),
+    ("개수확인", ".missing", 1, "Fail"),
+])
+def test_text_and_exact_count_use_real_page(local_site, tmp_path, run_in_worker, action, target, expected, status):
+    cases = [case("TC02", [step(1, "접속"), step(2, action, target, expected=expected)])]
+    results = run_in_worker(cases, local_site, lambda event: None, Event(),
+                            output_dir=tmp_path, headless=True, timeout_ms=250)
+    assert results[0]["status"] == status
+    if status == "Fail":
+        assert results[0]["failed_step"] == 2
+        assert "지원하지 않는" not in results[0]["reason"]

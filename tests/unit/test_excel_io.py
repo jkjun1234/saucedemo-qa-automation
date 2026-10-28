@@ -139,3 +139,28 @@ def test_empty_steps_are_not_reported_as_success(make_workbook):
 
     with pytest.raises(ValueError, match="실행 단계가 없습니다"):
         read_cases(make_workbook(steps=[]))
+
+
+@pytest.mark.parametrize("action,target,expected", [
+    ("문구확인", "[data-test=error]", "잠긴 계정"),
+    ("개수확인", ".inventory_item", 0),
+])
+def test_reads_text_and_exact_count_checks(make_workbook, action, target, expected):
+    from excel_io import read_cases
+
+    cases = read_cases(make_workbook(steps=[["TC01", 1, action, target, None, expected, "검증"]]))
+    assert cases[0]["steps"][0]["expected"] == expected
+
+
+@pytest.mark.parametrize("action,target,expected,message", [
+    ("문구확인", "#error", None, "기대값"),
+    ("문구확인", None, "오류", "대상"),
+    ("개수확인", ".item", -1, "0 이상의 정수"),
+    ("개수확인", ".item", 1.5, "0 이상의 정수"),
+    ("개수확인", ".item", None, "0 이상의 정수"),
+])
+def test_rejects_missing_text_and_invalid_exact_counts(make_workbook, action, target, expected, message):
+    from excel_io import read_cases
+
+    with pytest.raises(ValueError, match=message):
+        read_cases(make_workbook(steps=[["TC01", 1, action, target, None, expected, "잘못된 검증"]]))
