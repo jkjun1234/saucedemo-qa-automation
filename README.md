@@ -8,20 +8,27 @@ Python · Playwright · pytest · Chromium으로 웹 테스트를 작성·실행
 
 | 파일 | 역할 |
 |---|---|
-| `tests/test_tc01_login.py` | 실제 SauceDemo 로그인·URL·상품 표시 검사 |
-| `tc_data.py` | 엑셀에서 TC 번호에 맞는 입력값·비교값 읽기 |
-| `tests/test_tc_data.py` | 임시 엑셀로 읽기 기능을 검사하는 보조 테스트. 사이트 접속 없음 |
+| `excel_io.py` | 실행용 엑셀의 TC·단계를 읽고 실행 준비 오류 검사. 브라우저 조작·결과 쓰기는 아직 없음 |
+| `tools/prepare_tc_workbook.py` | 기존 초안을 보존한 최초 실행용 양식 준비. 기존 실행용 파일은 덮어쓰지 않음 |
+| `tests/e2e/test_tc01_login.py` | 이전 Python 고정 절차 방식의 실제 SauceDemo 로그인 검사. 새 단계 실행기로 수행한 결과가 아님 |
+| `tc_data.py` | 이전 방식에서 TC 번호에 맞는 로그인 입력값·비교값 읽기 |
+| `tests/unit/` | 임시 엑셀을 이용한 개발용 검사. 사이트 접속 없음 |
 | `read_tc_data.py` | 사용자가 작성했던 A2 출력 학습 코드 보존 |
 
 ## 현재 구현 상태
+
+- 2026-10-28 작업 1: [실행용 엑셀](SauceDemo_TC_실행용_v2.xlsx)을 준비했습니다. 사람용 TC는 번호순이며 `실제 결과` 열을 제거했고 기존 `결과`·`비고`를 유지했습니다. 결과는 실행 전이므로 빈칸입니다. `자동화_실행단계`에는 TC01 7단계만 준비되어 있습니다. TC02~05는 사람용 초안이며 아직 자동화 단계가 없습니다.
+- `excel_io.read_cases()`는 열 이름으로 데이터를 찾아 단계가 준비된 TC만 반환합니다. 잘못된 동작·순서·대상·기대값·검증 누락은 시트/행 사유와 함께 중단합니다. 과거 Pass/Fail은 실행 입력으로 반환하지 않습니다.
+- 새 단계 실행기·프로그램 창·결과 자동 갱신은 아직 미구현입니다. 완성 시 선택한 TC 파일의 기존 `결과`에 Pass/Fail/N/A, Fail·N/A의 사유·증거를 `비고`에 기록하고 결과 사본은 만들지 않습니다.
+- 실행용 v2는 양식 전환 때 한 번 준비한 입력 파일입니다. 실행마다 만드는 결과 사본이 아닙니다. 기존 초안은 이전 사용자 기록 보존용입니다. 준비 도구는 이미 존재하는 실행용 파일을 덮어쓰지 않습니다.
 
 - 목표: 정상 로그인·잠긴 계정·장바구니 추가/삭제·우편번호 누락·정상 주문의 5개 TC를 작성하고 실행·분석·개선 과정을 남깁니다. 작성·검토 순서는 TC01 → TC02 → TC03 → TC04 → TC05입니다. 로그인 관련 TC01·TC02를 먼저 마칩니다.
 - 테스트 설계표(TC): [SauceDemo_TC_설계서_초안.xlsx](SauceDemo_TC_설계서_초안.xlsx). 기존 게임 QA TC의 10개 열 구성을 참고했습니다. TC01에는 사용자 수동·자동화 결과가 기록됐고, TC04는 사용자 수동 오류 화면 확인까지 보고됐습니다.
 - 엑셀 읽기 연습: [read_tc_data.py](read_tc_data.py). 현재 `자동화_데이터!A2`의 TC 번호를 출력하는 단계이며, 사용자가 실행해 `TC01` 출력이 나왔다고 보고했습니다.
 - 사용자 제시 로그인 성공 기준: **"사이트 접속 및 상품 목록들이 뜨는지 확인".** 사용자는 정상 계정으로 직접 로그인해 상품 목록을 확인했다고 보고했습니다. AI의 열린 화면 확인은 별도 관찰입니다.
-- [TC01 코드](tests/test_tc01_login.py)는 사용자가 AI의 단계별 설명을 참고해 직접 입력·수정했습니다. 2026-09-30 첫 실행 `passed`는 사용자 보고이며, 두 번째 실행은 [저장된 결과](tc01_second_run_20260930.txt)에서 `1 passed in 2.13s`를 확인했습니다. URL과 상품 표시 두 조건의 의미는 선택형으로 확인했고, 입력값·선택자 선택 이유를 본인 말로 설명하는 단계는 남아 있습니다. TC02·TC03·TC04·TC05 코드는 미작성입니다. 다음 작성 대상은 TC02 잠긴 계정 로그인입니다.
+- [이전 TC01 코드](tests/e2e/test_tc01_login.py)는 사용자가 AI의 단계별 설명을 참고해 직접 입력·수정했습니다. 2026-09-30 첫 실행 `passed`는 사용자 보고이며, 두 번째 실행은 [저장된 결과](tc01_second_run_20260930.txt)에서 `1 passed in 2.13s`를 확인했습니다. URL과 상품 표시 두 조건의 의미는 선택형으로 확인했고, 입력값·선택자 선택 이유를 본인 말로 설명하는 단계는 남아 있습니다. 다음은 새 엑셀 단계 실행기로 TC01 전체 흐름을 연결한 뒤 TC02~05로 확장합니다.
 - TC01 엑셀 연동: [tc_data.py](tc_data.py)가 `자동화_데이터` 시트에서 TC-ID로 행을 찾아 아이디·비밀번호·예상 URL을 읽습니다. 로그인 절차와 상품 표시 검증은 기존 Python 코드에 유지했습니다. 예상 URL은 로그인 후 실제 주소와 비교하며, 로그인 없이 직접 접속할 주소로 사용하지 않습니다.
-- 2026-10-19 AI 검증: TC01 실제 사이트 테스트 1개와 엑셀 읽기 보조 테스트 2개가 통과했습니다([실행 기록](evidence/20261019_tc01_excel_ai/README.md)). 이는 사용자 직접 실행이나 업무 시나리오 3개 완료를 의미하지 않습니다. 새 버전 엑셀에 결과를 저장하는 기능과 실패 분석 실습은 아직 미구현·미수행입니다.
+- 2026-10-19 AI 검증: TC01 실제 사이트 테스트 1개와 엑셀 읽기 보조 테스트 2개가 통과했습니다([실행 기록](evidence/20261019_tc01_excel_ai/README.md)). 10/28에는 새 개발용 검사 19개·기존 개발용 2개와 이전 방식 TC01 1개가 전체 회귀 확인에서 통과했습니다([10/28 기록](evidence/20261028_excel_preparation_ai/README.md)). 새 엑셀 단계 방식의 사이트 실행·결과 갱신·실패 분석 실습은 아직 수행하지 않았습니다.
 
 ## 첫 수동 확인
 
@@ -47,7 +54,7 @@ py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
 .\.venv\Scripts\python.exe -m playwright install chromium
-.\.venv\Scripts\python.exe -m pytest .\tests\test_tc01_login.py -q --headed --tracing=retain-on-failure
+.\.venv\Scripts\python.exe -m pytest .\tests\e2e\test_tc01_login.py -q --headed --tracing=retain-on-failure
 ```
 
 다음 작업을 시작하기 전 `git pull`로 최신 변경을 받고, 노트북 작업을 마치면 변경 파일을 확인한 뒤 커밋·푸시합니다. 집 PC에서는 다시 `git pull`한 다음 이어갑니다. 같은 TC 엑셀 파일을 두 PC에서 동시에 수정하지 않습니다. 최신 실행 프로그램 설계와 계획은 `docs/superpowers/`에 있으며 아직 구현된 기능이 아닙니다.
@@ -73,17 +80,19 @@ $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
 .\.venv\Scripts\python.exe -m playwright install chromium
 ```
 
-TC01 개별 실행 명령은 다음과 같습니다. 전체 실행·증거 저장 안내는 나머지 테스트 작성에 맞춰 추가합니다.
+이전 TC01의 개별 실행 명령입니다. 현재 새 단계 실행기로 실행하는 명령은 아닙니다.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest .\tests\test_tc01_login.py -q --headed --tracing=retain-on-failure
+.\.venv\Scripts\python.exe -m pytest .\tests\e2e\test_tc01_login.py -q --headed --tracing=retain-on-failure
 ```
 
-현재 전체 테스트(TC01 한 개와 데이터 읽기 보조 테스트 두 개)는 아래 명령으로 실행합니다. 보조 테스트는 임시 엑셀을 사용하며 원본 TC를 수정하지 않습니다.
+개발용 검사는 아래처럼 별도로 실행합니다. 통과 개수를 실제 업무 TC 완료 건수로 계산하지 않습니다. 임시 엑셀만 쓰며 사용자 TC 파일은 수정하지 않습니다.
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest -v --tracing=retain-on-failure
+.\.venv\Scripts\python.exe -m pytest .\tests\unit -q
 ```
+
+기존 TC의 실제 사이트 확인은 `tests/e2e`로 분리했습니다. 향후 프로그램의 시작 버튼은 개발용 검사를 호출하지 않습니다.
 
 ## 기여 구분
 
