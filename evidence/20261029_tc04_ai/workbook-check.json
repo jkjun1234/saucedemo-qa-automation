@@ -1,0 +1,20 @@
+{
+  "performer": "AI (Codex)",
+  "changed_existing_cells": [
+    [
+      "TC_웹주문",
+      "A1",
+      "실행용 양식 · TC01~TC03 단계 준비 / TC04~TC05 단계 미준비 · 결과는 실제 실행 후 기록",
+      "실행용 양식 · TC01~TC04 단계 준비 / TC05 단계 미준비 · 결과는 실제 실행 후 기록"
+    ],
+    [
+      "TC_웹주문",
+      "H6",
+      null,
+      "Pass"
+    ]
+  ],
+  "added_step_rows": 20,
+  "existing_cell_styles": "preserved",
+  "original_draft": "unchanged"
+}
