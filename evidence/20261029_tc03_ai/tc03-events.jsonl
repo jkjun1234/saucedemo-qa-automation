@@ -1,0 +1,42 @@
+{"type": "run_started", "time": "2026-10-29T20:26:12.004+09:00", "run_id": "20261029_202612_130581b9", "total": 1, "base_url": "https://www.saucedemo.com/"}
+{"type": "tc_started", "time": "2026-10-29T20:26:12.451+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03"}
+{"type": "step_started", "time": "2026-10-29T20:26:12.560+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 1, "action": "접속", "target": ""}
+{"type": "step_finished", "time": "2026-10-29T20:26:12.882+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 1, "action": "접속", "target": ""}
+{"type": "step_started", "time": "2026-10-29T20:26:12.896+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 2, "action": "입력", "target": "#user-name"}
+{"type": "step_finished", "time": "2026-10-29T20:26:12.929+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 2, "action": "입력", "target": "#user-name"}
+{"type": "step_started", "time": "2026-10-29T20:26:12.929+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 3, "action": "입력", "target": "#password"}
+{"type": "step_finished", "time": "2026-10-29T20:26:12.940+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 3, "action": "입력", "target": "#password"}
+{"type": "step_started", "time": "2026-10-29T20:26:12.940+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 4, "action": "클릭", "target": "#login-button"}
+{"type": "step_finished", "time": "2026-10-29T20:26:12.992+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 4, "action": "클릭", "target": "#login-button"}
+{"type": "step_started", "time": "2026-10-29T20:26:12.992+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 5, "action": "URL확인", "target": ""}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.036+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 5, "action": "URL확인", "target": ""}
+{"type": "step_started", "time": "2026-10-29T20:26:13.036+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 6, "action": "개수확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.044+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 6, "action": "개수확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.044+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 7, "action": "클릭", "target": "[data-test=\"add-to-cart-sauce-labs-backpack\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.085+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 7, "action": "클릭", "target": "[data-test=\"add-to-cart-sauce-labs-backpack\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.085+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 8, "action": "문구확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.092+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 8, "action": "문구확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.092+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 9, "action": "클릭", "target": "[data-test=\"shopping-cart-link\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.135+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 9, "action": "클릭", "target": "[data-test=\"shopping-cart-link\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.136+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 10, "action": "URL확인", "target": ""}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.140+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 10, "action": "URL확인", "target": ""}
+{"type": "step_started", "time": "2026-10-29T20:26:13.140+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 11, "action": "표시확인", "target": "[data-test=\"cart-list\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.160+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 11, "action": "표시확인", "target": "[data-test=\"cart-list\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.161+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 12, "action": "개수확인", "target": "[data-test=\"inventory-item\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.166+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 12, "action": "개수확인", "target": "[data-test=\"inventory-item\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.166+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 13, "action": "문구확인", "target": "[data-test=\"inventory-item-name\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.170+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 13, "action": "문구확인", "target": "[data-test=\"inventory-item-name\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.170+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 14, "action": "문구확인", "target": "[data-test=\"item-quantity\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.175+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 14, "action": "문구확인", "target": "[data-test=\"item-quantity\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.175+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 15, "action": "클릭", "target": "[data-test=\"remove-sauce-labs-backpack\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.202+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 15, "action": "클릭", "target": "[data-test=\"remove-sauce-labs-backpack\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.202+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 16, "action": "URL확인", "target": ""}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.206+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 16, "action": "URL확인", "target": ""}
+{"type": "step_started", "time": "2026-10-29T20:26:13.206+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 17, "action": "표시확인", "target": "[data-test=\"cart-list\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.210+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 17, "action": "표시확인", "target": "[data-test=\"cart-list\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.210+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 18, "action": "개수확인", "target": "[data-test=\"inventory-item\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.215+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 18, "action": "개수확인", "target": "[data-test=\"inventory-item\"]"}
+{"type": "step_started", "time": "2026-10-29T20:26:13.215+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 19, "action": "개수확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "step_finished", "time": "2026-10-29T20:26:13.218+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "step": 19, "action": "개수확인", "target": "[data-test=\"shopping-cart-badge\"]"}
+{"type": "tc_finished", "time": "2026-10-29T20:26:13.229+09:00", "run_id": "20261029_202612_130581b9", "tc_id": "TC03", "status": "Pass", "expected": "모든 단계의 검증 통과", "actual": "모든 단계와 검증 통과", "failed_step": null, "reason": "", "started_at": "2026-10-29T20:26:12.451+09:00", "finished_at": "2026-10-29T20:26:13.229+09:00", "evidence": {"log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_202612_130581b9\\events.jsonl"}}
+{"type": "run_finished", "time": "2026-10-29T20:26:13.364+09:00", "run_id": "20261029_202612_130581b9", "results": [{"tc_id": "TC03", "status": "Pass", "expected": "모든 단계의 검증 통과", "actual": "모든 단계와 검증 통과", "failed_step": null, "reason": "", "started_at": "2026-10-29T20:26:12.451+09:00", "finished_at": "2026-10-29T20:26:13.229+09:00", "evidence": {"log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_202612_130581b9\\events.jsonl"}}]}
