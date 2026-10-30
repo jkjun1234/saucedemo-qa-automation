@@ -18,6 +18,8 @@ def local_site():
             self.wfile.write(b'''<html><body><input id="name"><button id="login"
                 onclick="localStorage.setItem('dirty','yes');location.href='/inventory.html?name='+encodeURIComponent(document.querySelector('#name').value)">Login</button>
                 <div class="item">one</div><div class="item">two</div>
+                <div id="price">$29.99</div><div id="subtotal">Item total: $29.99</div>
+                <div id="wrong-total">Item total: $129.99</div><div id="invalid-price">$29.999</div>
                 <div id="clean"></div><script>if(!localStorage.getItem('dirty'))
                 document.querySelector('#clean').textContent='clean';
                 else document.querySelector('#clean').remove();</script></body></html>''')
@@ -187,3 +189,37 @@ def test_text_and_exact_count_use_real_page(local_site, tmp_path, run_in_worker,
     if status == "Fail":
         assert results[0]["failed_step"] == 2
         assert "지원하지 않는" not in results[0]["reason"]
+
+
+@pytest.mark.parametrize("save,source,compare,target,status", [
+    ("문구저장", ".item:first-of-type", "저장문구확인", ".item:first-of-type", "Pass"),
+    ("문구저장", ".item:first-of-type", "저장문구확인", ".item:nth-of-type(2)", "Fail"),
+    ("금액저장", "#price", "저장금액확인", "#subtotal", "Pass"),
+    ("금액저장", "#price", "저장금액확인", "#wrong-total", "Fail"),
+    ("금액저장", "#invalid-price", "저장금액확인", "#subtotal", "Fail"),
+])
+def test_saved_text_and_money_compare_actual_page(local_site, tmp_path, run_in_worker, save, source, compare, target, status):
+    events = []
+    cases = [case("TC05", [step(1, "접속"), step(2, save, source, value="value"),
+                            step(3, compare, target, value="value")])]
+    result = run_in_worker(cases, local_site, events.append, Event(), output_dir=tmp_path, headless=True, timeout_ms=250)[0]
+    assert result["status"] == status
+    assert "지원하지 않는" not in result["reason"]
+    if status == "Pass":
+        comparison = next(e for e in events if e["type"] == "step_finished" and e["step"] == 3)
+        assert comparison["expected_value"] == comparison["observed_value"]
+    elif source != "#invalid-price":
+        failure = next(e for e in events if e["type"] == "step_failed")
+        assert failure["value_key"] == "value"
+        assert failure["expected_value"] != failure["observed_value"]
+        assert result["expected"] == failure["expected_value"]
+        assert result["actual"] == failure["observed_value"]
+
+
+def test_saved_values_never_leak_to_next_tc(local_site, tmp_path, run_in_worker):
+    cases = [case("TC01", [step(1, "접속"), step(2, "문구저장", "#clean", value="name"),
+                           step(3, "저장문구확인", "#clean", value="name")]),
+             case("TC02", [step(1, "접속"), step(2, "저장문구확인", "#clean", value="name")])]
+    results = run_in_worker(cases, local_site, lambda e: None, Event(), output_dir=tmp_path, headless=True, timeout_ms=250)
+    assert [r["status"] for r in results] == ["Pass", "Fail"]
+    assert "저장" in results[1]["reason"]

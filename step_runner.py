@@ -5,12 +5,15 @@ excel_io.read_cases()의 반환값을 받으며 TC마다 새 컨텍스트를 만
 결과 수정은 하지 않습니다. 프로그램 창은 향후 run_cases()를 호출합니다.
 """
 import json
+import re
+from decimal import Decimal
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from uuid import uuid4
 from urllib.parse import urljoin, urlsplit
 
 from playwright.sync_api import Error, TimeoutError, expect, sync_playwright
+from excel_io import SAVE_ACTIONS, SAVED_CHECK_ACTIONS
 
 
 KST = timezone(timedelta(hours=9))
@@ -20,7 +23,22 @@ def _now():
     return datetime.now(KST).isoformat(timespec="milliseconds")
 
 
-def _perform_step(page, step, base_url, timeout_ms):
+def _usd_amount(text):
+    """데모의 $숫자.소수2자리 한 금액을 정확한 Decimal 값으로 읽습니다."""
+    matches = re.findall(r"\$(\d+\.\d{2})(?![\d.,])", text)
+    if len(matches) != 1:
+        raise ValueError(f"달러 소수2자리 금액 하나를 읽을 수 없습니다: {text}")
+    return Decimal(matches[0])
+
+
+class _SavedComparisonError(AssertionError):
+    """저장값 비교 실패의 기대값·관찰값을 로그와 엑셀에 함께 전달합니다."""
+    def __init__(self, key, expected, actual):
+        super().__init__(f"{key} 기대값 {expected}, 실제값 {actual}")
+        self.detail = {"value_key": key, "expected_value": str(expected), "observed_value": str(actual)}
+
+
+def _perform_step(page, step, base_url, timeout_ms, saved_values):
     """지원하는 한 동작만 수행하며 임의 코드를 실행하지 않습니다."""
     action = step["action"]
     if action == "접속":
@@ -37,6 +55,32 @@ def _perform_step(page, step, base_url, timeout_ms):
         expect(page.locator(step["target"])).to_have_text(step["expected"], timeout=timeout_ms)
     elif action == "개수확인":
         expect(page.locator(step["target"])).to_have_count(step["expected"], timeout=timeout_ms)
+    elif action in SAVE_ACTIONS:
+        raw = page.locator(step["target"]).inner_text().strip()
+        kind = SAVE_ACTIONS[action]
+        value = _usd_amount(raw) if kind == "금액" else raw
+        saved_values[step["value"]] = (kind, value)
+        return {"value_key": step["value"], "stored_value": str(value)}
+    elif action in SAVED_CHECK_ACTIONS:
+        key = step["value"]
+        if key not in saved_values:
+            raise ValueError(f"같은 TC에서 먼저 저장하지 않은 값: {key}")
+        kind, expected = saved_values[key]
+        if kind != SAVED_CHECK_ACTIONS[action]:
+            raise ValueError(f"저장값 종류가 다릅니다: {key}")
+        locator = page.locator(step["target"])
+        if kind == "문구":
+            try:
+                expect(locator).to_have_text(expected, timeout=timeout_ms)
+            except AssertionError as error:
+                actual = " | ".join(locator.all_text_contents()) or "(요소 없음)"
+                raise _SavedComparisonError(key, expected, actual) from error
+            actual = locator.inner_text().strip()
+        else:
+            actual = _usd_amount(locator.inner_text())
+            if actual != expected:
+                raise _SavedComparisonError(key, expected, actual)
+        return {"value_key": key, "expected_value": str(expected), "observed_value": str(actual)}
     elif action == "최소개수확인":
         try:
             page.wait_for_function(
@@ -95,6 +139,7 @@ def run_cases(cases, base_url, emit, stop_event, *, output_dir=None,
                                 continue
                             result["started_at"] = _now()
                             send("tc_started", tc_id=case["tc_id"])
+                            saved_values = {}
                             context = browser.new_context()
                             try:
                                 context.tracing.start(screenshots=True, snapshots=True, sources=True)
@@ -109,8 +154,8 @@ def run_cases(cases, base_url, emit, stop_event, *, output_dir=None,
                                         fields = dict(tc_id=case["tc_id"], step=current["order"],
                                                       action=current["action"], target=current["target"])
                                         send("step_started", **fields)
-                                        _perform_step(page, current, base_url, timeout_ms)
-                                        send("step_finished", **fields)
+                                        detail = _perform_step(page, current, base_url, timeout_ms, saved_values)
+                                        send("step_finished", **fields, **(detail or {}))
                                     else:
                                         result.update(status="Pass", actual="모든 단계와 검증 통과", reason="")
                                 except (AssertionError, Error, ValueError) as error:
@@ -123,9 +168,12 @@ def run_cases(cases, base_url, emit, stop_event, *, output_dir=None,
                                     else:
                                         result.update(status="Fail", actual=str(error), reason=str(error),
                                                       failed_step=current["order"] if current else None)
+                                        detail = error.detail if isinstance(error, _SavedComparisonError) else {}
+                                        if detail:
+                                            result.update(expected=detail["expected_value"], actual=detail["observed_value"])
                                         send("step_failed", tc_id=case["tc_id"], step=result["failed_step"],
                                              category="검증" if isinstance(error, AssertionError) else "단계 실행",
-                                             message=str(error))
+                                             message=str(error), **detail)
                                         screenshot = folder / f"{case['tc_id']}_failure.png"
                                         try:
                                             page.screenshot(path=str(screenshot), full_page=True)

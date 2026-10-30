@@ -14,8 +14,10 @@ from urllib.parse import urlsplit
 from openpyxl import load_workbook
 
 
-SUPPORTED_ACTIONS = {"접속", "입력", "클릭", "URL확인", "표시확인", "최소개수확인", "문구확인", "개수확인"}
-CHECK_ACTIONS = {"URL확인", "표시확인", "최소개수확인", "문구확인", "개수확인"}
+SAVE_ACTIONS = {"문구저장": "문구", "금액저장": "금액"}
+SAVED_CHECK_ACTIONS = {"저장문구확인": "문구", "저장금액확인": "금액"}
+SUPPORTED_ACTIONS = {"접속", "입력", "클릭", "URL확인", "표시확인", "최소개수확인", "문구확인", "개수확인"} | SAVE_ACTIONS.keys() | SAVED_CHECK_ACTIONS.keys()
+CHECK_ACTIONS = {"URL확인", "표시확인", "최소개수확인", "문구확인", "개수확인"} | SAVED_CHECK_ACTIONS.keys()
 TC_HEADERS = {"TC-ID", "테스트 시나리오", "결과", "비고"}
 STEP_HEADERS = {"TC-ID", "순서", "동작", "대상", "입력값", "기대값", "설명"}
 
@@ -87,7 +89,7 @@ def read_cases(path: Path) -> list[dict]:
             expected = _text(row["기대값"])
             if action not in SUPPORTED_ACTIONS:
                 raise ValueError(f"{location}: 지원하지 않는 동작: {action}")
-            if action in {"입력", "클릭", "표시확인", "최소개수확인", "문구확인", "개수확인"} and not target:
+            if action not in {"접속", "URL확인"} and not target:
                 raise ValueError(f"{location}: {action}에는 대상이 필요합니다.")
             if action == "접속":
                 value = value.strip()
@@ -107,6 +109,10 @@ def read_cases(path: Path) -> list[dict]:
                 if not re.fullmatch(r"0|[1-9]\d*", expected.strip()):
                     raise ValueError(f"{location}: 개수 기대값은 0 이상의 정수여야 합니다.")
                 expected = int(expected.strip())
+            if action in SAVE_ACTIONS or action in SAVED_CHECK_ACTIONS:
+                value = value.strip()
+                if not value:
+                    raise ValueError(f"{location}: 입력값에 저장 이름이 필요합니다.")
             if any(step["order"] == order for step in cases[tc_id]["steps"]):
                 raise ValueError(f"{location}: {tc_id}의 순서 {order} 중복")
             cases[tc_id]["steps"].append({
@@ -124,6 +130,16 @@ def read_cases(path: Path) -> list[dict]:
             location = f"자동화_실행단계 {steps[0]['source_row']}행 ({tc_id})"
             if [step["order"] for step in steps] != list(range(1, len(steps) + 1)):
                 raise ValueError(f"{location}: 순서는 1부터 빠짐없이 연속이어야 합니다.")
+            saved_kinds = {}
+            for step in steps:
+                if step["action"] in SAVE_ACTIONS:
+                    saved_kinds[step["value"]] = SAVE_ACTIONS[step["action"]]
+                elif step["action"] in SAVED_CHECK_ACTIONS:
+                    key = step["value"]
+                    if key not in saved_kinds:
+                        raise ValueError(f"자동화_실행단계 {step['source_row']}행: {key} 값을 같은 TC에서 먼저 저장해야 합니다.")
+                    if saved_kinds[key] != SAVED_CHECK_ACTIONS[step["action"]]:
+                        raise ValueError(f"자동화_실행단계 {step['source_row']}행: {key} 저장값 종류가 다릅니다.")
             if not any(step["action"] in CHECK_ACTIONS for step in steps):
                 raise ValueError(f"{location}: 통과를 판정할 검증 단계가 없습니다.")
             case["steps"] = steps

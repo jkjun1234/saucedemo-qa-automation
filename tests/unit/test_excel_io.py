@@ -164,3 +164,24 @@ def test_rejects_missing_text_and_invalid_exact_counts(make_workbook, action, ta
 
     with pytest.raises(ValueError, match=message):
         read_cases(make_workbook(steps=[["TC01", 1, action, target, None, expected, "잘못된 검증"]]))
+
+
+@pytest.mark.parametrize("save,compare", [("문구저장", "저장문구확인"), ("금액저장", "저장금액확인")])
+def test_reads_capture_and_compare_steps(make_workbook, save, compare):
+    from excel_io import read_cases
+    steps = [["TC01", 1, save, "#before", "saved", None, "저장"],
+             ["TC01", 2, compare, "#after", "saved", None, "비교"]]
+    assert len(read_cases(make_workbook(steps=steps))[0]["steps"]) == 2
+
+
+@pytest.mark.parametrize("steps,message", [
+    ([["TC01", 1, "문구저장", "#a", None, None, None]], "저장 이름"),
+    ([["TC01", 1, "문구저장", None, "name", None, None]], "대상"),
+    ([["TC01", 1, "저장문구확인", "#a", "name", None, None]], "먼저 저장"),
+    ([["TC01", 1, "문구저장", "#a", "name", None, None],
+      ["TC01", 2, "저장금액확인", "#b", "name", None, None]], "종류"),
+])
+def test_rejects_invalid_saved_value_references(make_workbook, steps, message):
+    from excel_io import read_cases
+    with pytest.raises(ValueError, match=message):
+        read_cases(make_workbook(steps=steps))

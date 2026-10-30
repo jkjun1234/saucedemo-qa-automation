@@ -1,0 +1,114 @@
+{
+  "performer": "AI (Codex)",
+  "method": "combined TC01-TC05 actual browser verification; TC05-only same-file export preserves other saved results",
+  "headless": true,
+  "excel_written_ids": [
+    "TC05"
+  ],
+  "excel_saved": true,
+  "results": [
+    {
+      "tc_id": "TC01",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-29T22:36:23.476+09:00",
+      "finished_at": "2026-10-29T22:36:24.076+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_223623_313436e9\\events.jsonl"
+      }
+    },
+    {
+      "tc_id": "TC02",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-29T22:36:24.077+09:00",
+      "finished_at": "2026-10-29T22:36:24.578+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_223623_313436e9\\events.jsonl"
+      }
+    },
+    {
+      "tc_id": "TC03",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-29T22:36:24.578+09:00",
+      "finished_at": "2026-10-29T22:36:25.245+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_223623_313436e9\\events.jsonl"
+      }
+    },
+    {
+      "tc_id": "TC04",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-29T22:36:25.245+09:00",
+      "finished_at": "2026-10-29T22:36:26.006+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_223623_313436e9\\events.jsonl"
+      }
+    },
+    {
+      "tc_id": "TC05",
+      "status": "Pass",
+      "expected": "모든 단계의 검증 통과",
+      "actual": "모든 단계와 검증 통과",
+      "failed_step": null,
+      "reason": "",
+      "started_at": "2026-10-29T22:36:26.006+09:00",
+      "finished_at": "2026-10-29T22:36:26.874+09:00",
+      "evidence": {
+        "log": "C:\\Users\\jun\\Desktop\\취업서류\\자동화테스트_포트폴리오\\test-results\\20261029_223623_313436e9\\events.jsonl"
+      }
+    }
+  ],
+  "tc05_comparisons": [
+    {
+      "type": "step_finished",
+      "time": "2026-10-29T22:36:26.773+09:00",
+      "run_id": "20261029_223623_313436e9",
+      "tc_id": "TC05",
+      "step": 25,
+      "action": "저장문구확인",
+      "target": "[data-test=\"inventory-item-name\"]",
+      "value_key": "product_name",
+      "expected_value": "Sauce Labs Backpack",
+      "observed_value": "Sauce Labs Backpack"
+    },
+    {
+      "type": "step_finished",
+      "time": "2026-10-29T22:36:26.783+09:00",
+      "run_id": "20261029_223623_313436e9",
+      "tc_id": "TC05",
+      "step": 26,
+      "action": "저장문구확인",
+      "target": "[data-test=\"item-quantity\"]",
+      "value_key": "quantity",
+      "expected_value": "1",
+      "observed_value": "1"
+    },
+    {
+      "type": "step_finished",
+      "time": "2026-10-29T22:36:26.788+09:00",
+      "run_id": "20261029_223623_313436e9",
+      "tc_id": "TC05",
+      "step": 27,
+      "action": "저장금액확인",
+      "target": "[data-test=\"subtotal-label\"]",
+      "value_key": "subtotal",
+      "expected_value": "29.99",
+      "observed_value": "29.99"
+    }
+  ]
+}
