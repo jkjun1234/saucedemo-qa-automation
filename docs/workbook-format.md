@@ -52,12 +52,5 @@
 
 선택한 같은 엑셀의 결과·비고를 갱신하며 결과 사본·새 결과 시트를 만들지 않습니다. 실행 대상이 아닌 행은 유지합니다. 파일이 열려 있어 저장할 수 없으면 실행 판정과 별도로 저장 실패를 표시합니다.
 
-## 증거 파일
-
-`test-results/<실행ID>/`에 단계별 `events.jsonl`, 실행 요약 `run-summary.json`을 저장합니다. TC 실패 시 스크린샷과 Trace 저장을 시도하며 증거 저장 자체의 오류도 로그에 기록합니다. 선택한 근거는 `evidence/`에 보관합니다.
-
-```powershell
-.\.venv\Scripts\python.exe -m playwright show-trace "실제_trace_파일_경로.zip"
-```
 
 기존 [설계서 초안](../SauceDemo_TC_설계서_초안.xlsx)은 학습 기록 보존용입니다. [양식 준비 도구](../tools/prepare_tc_workbook.py)는 최초 실행용 파일 준비에 사용하며 이미 존재하는 실행용 파일은 덮어쓰지 않습니다.
