@@ -108,18 +108,6 @@ $env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
 
 실행하면 선택한 TC 파일의 이전 결과·비고가 갱신됩니다. Pass인 TC는 이전 실패 비고를 지우며 실행 대상이 아닌 행은 유지합니다. 중지는 현재 동작 종료 또는 제한시간 이후 반영됩니다. 코드나 단계를 수정했다면 프로그램을 닫고 다시 실행합니다.
 
-### 개발 검사
-
-프로그램의 시작 버튼은 pytest 검사를 실행하지 않습니다. 개발 검사는 별도 명령으로 수행합니다.
-
-```powershell
-$env:PLAYWRIGHT_BROWSERS_PATH = Join-Path (Get-Location).Path '.browsers'
-.\.venv\Scripts\python.exe -m pytest tests/unit -q
-.\.venv\Scripts\python.exe -m pytest tests/e2e/test_excel_scenarios.py -v
-```
-
-`tests/unit`의 임시 엑셀·로컬 연습 화면·창 제어 검사는 실제 SauceDemo 업무 시나리오 건수와 구분합니다.
-
 ## 실행 결과와 기여 범위
 
 | 구분 | 확인한 내용 |
